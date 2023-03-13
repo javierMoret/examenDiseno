@@ -2,16 +2,35 @@
 
 var map = L.map('mapa').setView([36.72071131817986, -4.420041081375409], 13);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 17,
+    minZoom: 14,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+
+var lista = []
+var elementoSeleccionado = 0;
+
+
+
+function cargarModal(){
+    let elemento = lista[0]
+    let nombre = document.getElementById('nombreElemento')
+    let direccion = document.getElementById('direccionElemento')
+    let horario = document.getElementById('horarioElemento')
+    let telefono = document.getElementById('telefonoElemento')
+    direccion.classList.add('mb-2')
+    horario.classList.add('mb-2')
+    telefono.classList.add('mb-2')
+    nombre.textContent = elemento.nombre
+    direccion.textContent = elemento.direccion
+    horario.textContent = elemento.horario
+    telefono.textContent = elemento.telefono
+}
 
 
 fetch('https://raw.githubusercontent.com/FRomero999/ExamenDIW2022/main/rutas_arqueologicas.json')
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-        console.log(data[24].properties.nombre);
         const tbody = document.querySelector("#listaElementos");
         const template = document.querySelector('#elementoLista');
         for (let i = 0; i < data.length; i++) {
@@ -30,12 +49,29 @@ fetch('https://raw.githubusercontent.com/FRomero999/ExamenDIW2022/main/rutas_arq
             }
             tbody.appendChild(clone);
 
+            let elemento = {
+                nombre: data[i].properties.nombre,
+                horario: data[i].properties.horario,
+                direccion: data[i].properties.direccion,
+                telefono: data[i].properties.telefono,
+            }
+            lista.push(elemento)
+            
+            template.addEventListener('click', 
+                cargarModal()
+            )
+
             var marcador = L.marker([data[i].properties.x, data[i].properties.y]).addTo(map);
             marcador.bindPopup(`${data[i].properties.nombre}`);
+
         }
 
 
     })
+
+
+
+
 
 
 
