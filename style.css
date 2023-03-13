@@ -1,0 +1,21 @@
+.elemento{
+    border-bottom: 1px solid black;
+    margin: 2%;
+}
+.direccionYtelefono{
+    display: flex;
+}
+.tarjeta{
+    margin-right: 2%;
+    color: white;
+    background-color: #0071DA;
+    padding: 0 2%;
+    border-radius: 5px;
+}
+#mapa{
+    height: 100vh;
+}
+.listado{
+    height: 100vh;
+    overflow-y: scroll;
+}
